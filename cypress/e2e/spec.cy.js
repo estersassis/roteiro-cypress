@@ -56,4 +56,61 @@ describe('template spec', () => {
     cy.get('.todo-list li')
       .should('have.length', 2);
   });
+
+  it('Insere e completa tarefa', () => {
+    cy.visit('http://127.0.0.1:7001'); 
+
+    cy.get('.new-todo')
+      .type('TP2 de ES{enter}');
+
+    cy.get('.todo-list li .toggle')
+      .first()
+      .click();
+    
+    cy.contains('Completed').click();
+    cy.get('.todo-list li')
+      .should('have.length', 1)
+      .first()
+      .should('have.text', 'TP2 de ES');
+  });
+
+  it('Insere, completa e descompleta tarefa', () => {
+    cy.visit('http://127.0.0.1:7001'); 
+
+    cy.get('.new-todo')
+      .type('TP2 de ES{enter}');
+
+    cy.get('.todo-list li .toggle')
+      .first()
+      .click();
+    
+    cy.contains('Completed').click();
+    cy.get('.todo-list li')
+      .should('have.length', 1)
+      .first()
+      .should('have.text', 'TP2 de ES');
+    
+    cy.get('.todo-list li .toggle')
+    .first()
+    .click();  
+    cy.contains('Completed').click();
+    cy.get('.todo-list li')
+      .should('have.length', 0)
+
+  });
+
+  it('Limpa tarefas completas', () => {
+    cy.visit('http://127.0.0.1:7001'); 
+
+    cy.get('.new-todo')
+      .type('TP2 de ES{enter}');
+
+    cy.get('.todo-list li .toggle')
+      .first()
+      .click();
+
+    cy.contains('Clear completed').click();
+    cy.get('.todo-list li')
+      .should('have.length', 0);
+  });
 });
